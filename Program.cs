@@ -1,81 +1,68 @@
 ﻿using System;
+using System.IO;
+using System.Runtime.CompilerServices;
 
 namespace HospitalManagementSystem
 {
     class Program
     {
+        private static readonly string credentialsFilePath = "data/credentials.txt"; //path to the file storing user credentials
         static void Main(string[] args)
         {
-            Console.WriteLine("DOTNET Hospital Management System");
-            Console.WriteLine("Welcome, Jack Doctorson!\n");
+            Console.WriteLine("Welcome to the Hospital Management System");
 
-            while (true)
+            bool isAuthenticated = false;
+            string userRole = null;
+
+            while(!isAuthenticated)
             {
-                Console.Clear(); // Clear the console to display new data.
-                Console.WriteLine("Doctor Menu");
-                Console.WriteLine("Please choose an option:");
-                Console.WriteLine("1. List doctor details");
-                Console.WriteLine("2. List patients");
-                Console.WriteLine("3. List appointments");
-                Console.WriteLine("4. Check particular patient");
-                Console.WriteLine("5. List appointments with patient");
-                Console.WriteLine("6. Logout");
-                Console.WriteLine("7. Exit");
+                Console.WriteLine("\nlogin Menu");
+                Console.Write("ID: ");
+                string userId = Console.ReadLine();
 
-                Console.Write("Enter your choice (1-7): ");
-                string choice = Console.ReadLine();
+                Console.Write("Enter Password: ");
+                //string password = ReadPassword();
 
-                switch (choice)
-                {
-                    case "1":
-                        Console.Clear();
-                        Console.WriteLine("Doctor Details");
-                        // Add your code to list doctor details here.
-                        Console.WriteLine("Press any key to return to the menu...");
-                        Console.ReadKey();
-                        break;
-                    case "2":
-                        Console.Clear();
-                        Console.WriteLine("List of Patients");
-                        // Add your code to list patients here.
-                        Console.WriteLine("Press any key to return to the menu...");
-                        Console.ReadKey();
-                        break;
-                    case "3":
-                        Console.Clear();
-                        Console.WriteLine("List of Appointments");
-                        // Add your code to list appointments here.
-                        Console.WriteLine("Press any key to return to the menu...");
-                        Console.ReadKey();
-                        break;
-                    case "4":
-                        Console.Clear();
-                        Console.WriteLine("Check Particular Patient");
-                        // Add your code to check a particular patient here.
-                        Console.WriteLine("Press any key to return to the menu...");
-                        Console.ReadKey();
-                        break;
-                    case "5":
-                        Console.Clear();
-                        Console.WriteLine("List Appointments with a Patient");
-                        // Add your code to list appointments with a patient here.
-                        Console.WriteLine("Press any key to return to the menu...");
-                        Console.ReadKey();
-                        break;
-                    case "6":
-                        Console.WriteLine("Logging out...");
-                        // Add your code for logging out here.
-                        return; // Exit the program after logging out.
-                    case "7":
-                        Console.WriteLine("Exiting...");
-                        return; // Exit the program.
-                    default:
-                        Console.WriteLine("Invalid choice. Please enter a valid option (1-7).");
-                        Console.WriteLine("Press any key to continue...");
-                        Console.ReadKey();
-                        break;
-                }
+                
+
             }
+
+
+        }
+
+        private static string ReadPassword()
+        {
+            string password = " "; //Initialize an empty string to store the password
+            ConsoleKeyInfo key; // declare a variable to store each key press
+
+            do
+            {
+                key = Console.ReadKey(true); // Read a key from the console without displaying it
+
+                //Check if the key pressed is a printable character or a symbol
+
+                if(char.IsLetterOrDigit(key.KeyChar) || char.IsSymbol(key.KeyChar) )
+                {
+                    password += key.KeyChar; // Append the character to the password string
+                    Console.Write("*"); // Display an asterisk (*) on the screen to mask the character
+                }
+
+                else if (key.Key == ConsoleKey.Backspace && password.Length > 0)
+                {
+                    password = password.Substring(0, password.Length - 1);
+                    Console.Write("\b \b"); // Erase the last character by moving the cursor back, clearing the character, and moving the cursor back again 
+                }
+
+            }
+
+            while (key.Key != ConsoleKey.Enter); // Continue reading keys until the Enter key is pressed
+
+            Console.WriteLine(); // Print a newline to move to the next line after the user presses Enter
+
+            return password; // Return the entered password 
+
+
+
         }
     }
 }
