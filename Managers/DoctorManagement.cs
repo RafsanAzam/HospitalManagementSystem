@@ -11,19 +11,20 @@ namespace HospitalManagementSystem.Managers
 {
     public class DoctorManagement
     {
-        private List<Doctor> doctors;
-        private string doctorsFilePath = "doctors.txt"; //text file for storing doctor data
-
+        public List<Doctor> doctors;
+        public string doctorsFilePath = "F:\\2023\\Spring - 2023\\.NET Application Development\\Assignment-1\\HospitalManagementSystem\\Data\\doctorList.txt"; //text file for storing doctor data
+        //private int nextId = 1; //// Declare nextId as a static variable
         public DoctorManagement()
         {
             doctors = new List<Doctor>();
+            LoadDoctorsFromFile(); // Load doctors from file when the class is initialized. 
         }
 
         // *** Function for adding new doctor ***
 
         public void AddDoctor(Doctor doctor)
         {
-            doctor.Id = GenerateUniqueDoctorId();
+            //doctor.id = GenerateUniqueDoctorId();
 
 
             doctors.Add(doctor);  //add doctor to the list
@@ -36,16 +37,29 @@ namespace HospitalManagementSystem.Managers
         // *** Fuction to list all doctors ***
         public void ListDoctors()
         {
-            foreach( Doctor doctor in doctors)
+            Console.Clear();
+            Console.WriteLine("List of All Doctors:");
+            if(doctors.Count == 0)
             {
-                Console.WriteLine(doctor.ToString());
+                Console.WriteLine("No doctors found.");
             }
+
+            else
+            {
+                foreach (Doctor doctor in doctors)
+                {
+                    Console.WriteLine(doctor.ToString());
+                }
+            }
+            Console.WriteLine("\nPress Enter to return to the menu...");
+            Console.ReadLine(); // Wait for user input before returning to the menu
         }
 
         // *** Function to list details of a specific doctor by ID ***
 
         public void ListDoctorDetails(int doctorId)
         {
+            Console.WriteLine($"Searching for doctor with ID {doctorId}...");
             var doctor = doctors.Find(d => d.Id == doctorId);
 
             if(doctor != null)
@@ -59,7 +73,7 @@ namespace HospitalManagementSystem.Managers
         }
 
         // *** Function to generate a unique doctor ID ***
-        private int GenerateUniqueDoctorId()
+        public int GenerateUniqueDoctorId()
         {
             //Find the maximum existing doctor ID and add 1
             int maxId = 0;
@@ -74,7 +88,7 @@ namespace HospitalManagementSystem.Managers
             return maxId + 1;
         }
 
-        private void LoadDoctorsFromFile()
+        public void LoadDoctorsFromFile()
         {
             if(File.Exists(doctorsFilePath))
             {
@@ -94,12 +108,13 @@ namespace HospitalManagementSystem.Managers
                             string firstName = fields[0].Trim();
                             string lastName = fields[1].Trim();
                             string email = fields[2].Trim();
-                            int phone = int.Parse(fields[3].Trim());
+                            string phone = fields[3].Trim();
                             int streetNumber = int.Parse(fields[4].Trim());
-                            int streetName = int.Parse(fields[5].Trim());
+                            string streetName = fields[5].Trim();
                             string city = fields[6].Trim();
                             string state = fields[7].Trim();
                             int id = int.Parse(fields[8].Trim());
+
 
                             //Create a new doctor object
                             Doctor doctor = new Doctor(id, firstName, lastName, email, phone, streetNumber, streetName, city, state);
@@ -107,6 +122,10 @@ namespace HospitalManagementSystem.Managers
                             //add the doctor to the list
 
                             doctors.Add(doctor);
+                            /*if(id>=doctor.)
+                            {
+                                nextId = id + 1;
+                            }*/
                         }
 
                         catch (FormatException ex)
@@ -124,7 +143,7 @@ namespace HospitalManagementSystem.Managers
 
         // *** Function to save doctors to the text file ***
 
-        private void SaveDoctorsToFile()
+        public void SaveDoctorsToFile()
         {
             //Convert the list of doctors to a  list of strings 
             List<string> doctorStrings = new List<string>();
@@ -137,6 +156,48 @@ namespace HospitalManagementSystem.Managers
             File.WriteAllLines(doctorsFilePath, doctorStrings);
 
         }
+
+
+        public static void RunDoctorMenu()
+        {
+            bool running = true;
+
+            while (running)
+            {
+                Console.WriteLine("\nDoctor Menu");
+                Console.WriteLine("1. View Patient List");
+                Console.WriteLine("2. View Appointments");
+                Console.WriteLine("3. Update Patient Records");
+                Console.WriteLine("4. Logout");
+
+                Console.Write("Enter your choice (1-4): ");
+                string choice = Console.ReadLine();
+
+                switch (choice)
+                {
+                    case "1":
+                        Console.WriteLine("Viewing patient list...");
+                        // Implement logic for viewing the patient list
+                        break;
+                    case "2":
+                        Console.WriteLine("Viewing appointments...");
+                        // Implement logic for viewing appointments
+                        break;
+                    case "3":
+                        Console.WriteLine("Updating patient records...");
+                        // Implement logic for updating patient records
+                        break;
+                    case "4":
+                        running = false; // Exit the doctor menu
+                        break;
+                    default:
+                        Console.WriteLine("Invalid choice. Please try again.");
+                        break;
+                }
+            }
+        }
+
+
 
 
     }

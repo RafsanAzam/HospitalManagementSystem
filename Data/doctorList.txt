@@ -1,0 +1,3 @@
+John,Smith,john.smith@example.com,1234567890,123,Main St,New York,NY,1
+Alice,Johnson,alice.johnson@example.com,9876543210,456,Elm St,Los Angeles,CA,2
+Michael,Williams,michael.williams@example.com,5551234567,789,Maple St,Chicago,IL,3
