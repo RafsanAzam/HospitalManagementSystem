@@ -9,19 +9,21 @@ namespace HospitalManagementSystem
     class Program
     {
         private static readonly string credentialsFilePath = "F:\\2023\\Spring - 2023\\.NET Application Development\\Assignment-1\\HospitalManagementSystem\\Data\\credentials.txt"; //path to the file storing user credentials
+        bool isAuthenticated = false;
+        string userRole = null;
         static void Main(string[] args)
         {
-            
+            bool isAuthenticated = false;
+            string userRole = null;
+
             Console.WriteLine("Welcome to the Hospital Management System");
 
             AdministratorManagement administratorManagement = new AdministratorManagement();
             DoctorManagement doctorManagement = new DoctorManagement();
             PatientManagement patientManagement = new PatientManagement();
+            
 
-            bool isAuthenticated = false;
-            string userRole = null;
-
-            while(!isAuthenticated)
+            while (!isAuthenticated)
             {
                 Console.WriteLine("\nlogin Menu");
                 Console.Write("ID: ");
@@ -56,7 +58,7 @@ namespace HospitalManagementSystem
                     break;
 
                 case "Admin":
-                    RunAdministratorMenu(doctorManagement, administratorManagement, patientManagement);
+                    RunAdministratorMenu(doctorManagement, administratorManagement, patientManagement, ref isAuthenticated);
                     break;
 
             }
@@ -147,7 +149,7 @@ namespace HospitalManagementSystem
         //AdministratorManagement administratorManagement = new AdministratorManagement();
        
 
-        public static void RunAdministratorMenu(DoctorManagement doctorManagement, AdministratorManagement administratorManagement, PatientManagement patientManagement)
+        public static void RunAdministratorMenu(DoctorManagement doctorManagement, AdministratorManagement administratorManagement, PatientManagement patientManagement, ref bool isAuthenticated)
         {
             bool running = true;
 
@@ -266,6 +268,13 @@ namespace HospitalManagementSystem
 
                         Console.WriteLine("Patient added successfully!");
                         Console.ReadKey();
+                        break;
+                    case "7":
+                        isAuthenticated = false;
+                        running = false; //Exit the administrator menu
+                        break;
+                    case "8":
+                        Environment.Exit(0);
                         break;
 
                     default:

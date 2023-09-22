@@ -63,3 +63,58 @@ Name: Farhan Khan
 Email: farhan.khan@gmail.com
 Phone: 0435281797
 Address: 131 gulshan, dhaka, bangladesh
+Doctor ID: 1
+Name: John Doe
+Email: johndoe@example.com
+Phone: 123-456-7890
+Address: 123 Main St, New York, NY
+Doctor ID: 2
+Name: Alice Smith
+Email: alicesmith@example.com
+Phone: 987-654-3210
+Address: 456 Elm St, Los Angeles, CA
+Doctor ID: 3
+Name: Michael Johnson
+Email: michaeljohnson@example.com
+Phone: 555-123-4567
+Address: 789 Oak St, Chicago, IL
+Doctor ID: 4
+Name: Emily Williams
+Email: emilywilliams@example.com
+Phone: 111-222-3333
+Address: 101 Maple St, San Francisco, CA
+Doctor ID: 5
+Name: David Brown
+Email: davidbrown@example.com
+Phone: 777-888-9999
+Address: 202 Cedar St, Boston, MA
+Doctor ID: 6
+Name: Sarah Anderson
+Email: sarahanderson@example.com
+Phone: 999-888-7777
+Address: 303 Willow St, Houston, TX
+Doctor ID: 7
+Name: James Wilson
+Email: jameswilson@example.com
+Phone: 444-555-6666
+Address: 404 Birch St, Phoenix, AZ
+Doctor ID: 8
+Name: Linda Moore
+Email: lindamoore@example.com
+Phone: 123-456-7890
+Address: 505 Pine St, Philadelphia, PA
+Doctor ID: 9
+Name: Robert Lee
+Email: robertlee@example.com
+Phone: 111-111-1111
+Address: 606 Redwood St, Denver, CO
+Doctor ID: 10
+Name: Jennifer Hall
+Email: jenniferhall@example.com
+Phone: 222-222-2222
+Address: 707 Cherry St, Seattle, WA
+Doctor ID: 11
+Name: salman butt
+Email: salman.butt@gmail.com
+Phone: 04352817272
+Address: 131 jampara, , state

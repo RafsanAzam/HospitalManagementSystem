@@ -87,48 +87,63 @@ namespace HospitalManagementSystem.Managers
 
         private void LoadPatientsFromFile()
         {
-            if (File.Exists(patientsFilePath))
+            try
             {
-                // Read the file and create doctor objects
-                string[] lines = File.ReadAllLines(patientsFilePath);
-                foreach (string line in lines)
+                if (File.Exists(patientsFilePath))
                 {
-                    //Split the line into fields (assuming fields are separated by a delimiter like a comma)
-                    string[] fields = line.Split(',');
-
-                    // Check if there are enough fields to create a Patient object
-                    if (fields.Length >= 5)
+                    // Read the file and create doctor objects
+                    string[] lines = File.ReadAllLines(patientsFilePath);
+                    foreach (string line in lines)
                     {
-                        try
+                        //Split the line into fields (assuming fields are separated by a delimiter like a comma)
+                        string[] fields = line.Split(',');
+
+                        // Check if there are enough fields to create a Patient object
+                        if (fields.Length >= 5)
                         {
-                            //Parse the fields & create a new Patient object
-                            int id = int.Parse(fields[0].Trim());
-                            string Name = fields[1].Trim();
-                            string address = fields[2].Trim();
-                            string email = fields[3].Trim();
-                            string phone = fields[4].Trim();
-                            
-                            
+                            try
+                            {
+                                //Parse the fields & create a new Patient object
+                                int id = int.Parse(fields[0].Trim());
+                                string Name = fields[1].Trim();
+                                string address = fields[2].Trim();
+                                string email = fields[3].Trim();
+                                string phone = fields[4].Trim();
 
-                            //Create a new patient object
-                            Patient patient = new Patient(id, Name, address, email, phone);
 
-                            //add the patient to the list
 
-                            patients.Add(patient);
+                                //Create a new patient object
+                                Patient patient = new Patient(id, Name, address, email, phone);
+
+                                //add the patient to the list
+
+                                patients.Add(patient);
+                            }
+
+                            catch (FormatException ex)
+                            {
+                                // handle the format exception if parsing fails for any field
+                                Console.WriteLine($"Error parsing patient data: {ex.Message}");
+                            }
+
+
                         }
-
-                        catch (FormatException ex)
-                        {
-                            // handle the format exception if parsing fails for any field
-                            Console.WriteLine($"Error parsing patient data: {ex.Message}");
-                        }
-
 
                     }
-
                 }
+
             }
+            catch (IOException ex)
+            {
+                // Handle IO exceptions when reading the file
+                Console.WriteLine($"Error reading the patient data file: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                // Handle other unexpected exceptions
+                Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+            }
+
         }
 
         // *** Function to save doctors to the text file ***
