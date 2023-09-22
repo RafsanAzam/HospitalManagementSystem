@@ -9,12 +9,52 @@ namespace HospitalManagementSystem
     class Program
     {
         private static readonly string credentialsFilePath = "F:\\2023\\Spring - 2023\\.NET Application Development\\Assignment-1\\HospitalManagementSystem\\Data\\credentials.txt"; //path to the file storing user credentials
-        bool isAuthenticated = false;
-        string userRole = null;
+        //bool isAuthenticated = false;
+        //string userRole = null;
+        static string userIdforCheck;
         static void Main(string[] args)
         {
             bool isAuthenticated = false;
             string userRole = null;
+            Console.Clear();
+
+            // Define the dimensions of the box
+            int boxWidth = 50;
+            int boxHeight = 10;
+
+            // Calculate the width of the horizontal lines
+            int horizontalLineWidth = boxWidth - 6; // Adjust for the title length
+
+            // Create the top border
+            Console.WriteLine(new string('=', boxWidth));
+
+            // Set the cursor position for the title
+            Console.SetCursorPosition((boxWidth - "DOTNET Hospital Management System".Length) / 2, 1);
+            Console.WriteLine("DOTNET Hospital Management System");
+
+            // Create the horizontal line beneath the title
+            Console.SetCursorPosition(3, 2);
+            Console.WriteLine(new string('=', horizontalLineWidth));
+
+            // Set the cursor position for the "Login" text
+            Console.SetCursorPosition((boxWidth - "Login".Length) / 2, 4);
+            Console.WriteLine("Login");
+
+            // Create the left and right vertical lines
+            for (int i = 3; i <= boxHeight - 2; i++)
+            {
+                Console.SetCursorPosition(3, i);
+                Console.Write("|");
+                Console.SetCursorPosition(boxWidth - 4, i);
+                Console.Write("|");
+            }
+
+            // Create the bottom border
+            Console.SetCursorPosition(0, boxHeight - 1);
+            Console.WriteLine(new string('=', boxWidth));
+
+
+
 
             Console.WriteLine("Welcome to the Hospital Management System");
 
@@ -28,6 +68,7 @@ namespace HospitalManagementSystem
                 Console.WriteLine("\nlogin Menu");
                 Console.Write("ID: ");
                 string userId = Console.ReadLine();
+                userIdforCheck = userId;
 
                 Console.Write("Enter Password: "); 
                 string password = ReadPassword();
@@ -60,6 +101,10 @@ namespace HospitalManagementSystem
                 case "Admin":
                     RunAdministratorMenu(doctorManagement, administratorManagement, patientManagement, ref isAuthenticated);
                     break;
+                case "Patient":
+                    RunPatientMenu(patientManagement, doctorManagement, userIdforCheck);
+                    break;
+
 
             }
 
@@ -323,45 +368,83 @@ namespace HospitalManagementSystem
             }
         }
 
-        public static void RunPatientMenu()
+        public static void RunPatientMenu(PatientManagement patientManagement, DoctorManagement doctorManagement, String userId)
         {
+            patientManagement.LoadPatientsFromFile();
             bool running = true;
-
+            int id = int.Parse(userId);
             while (running)
             {
-                Console.WriteLine("\nDoctor Menu");
-                Console.WriteLine("1. View Patient List");
-                Console.WriteLine("2. View Appointments");
-                Console.WriteLine("3. Update Patient Records");
-                Console.WriteLine("4. Logout");
+                Console.Clear();
+                Console.WriteLine("Patient Menu");
+                Console.WriteLine();
+                Console.WriteLine("1. List patient details");
+                Console.WriteLine("2. List my doctor details");
+                Console.WriteLine("3. List all appointments");
+                Console.WriteLine("4. Book appointment");
+                Console.WriteLine("5. Exit to login");
+                Console.WriteLine("6. Exit System");
 
-
-                Console.Write("Enter your choice (1-4): ");
                 string choice = Console.ReadLine();
 
                 switch (choice)
                 {
                     case "1":
-                        Console.WriteLine("Viewing patient list...");
-                        // Implement logic for viewing the patient list
+                        Console.WriteLine("Your patient details:");
+                        // Implement logic to display patient details here
+                        var patient = patientManagement.patients.Find(p => p.Id == id);
+                        if(patient != null)
+                        {
+                            //Print the patient details
+                            Console.WriteLine("Patient Details:");
+                            Console.WriteLine(patient.ToString());
+                        }
+                        else
+                        {
+                            Console.WriteLine("Patient not found!");
+                        }
+
+                        Console.WriteLine("Please press any key to return to the menu.");
+                        Console.ReadKey();
                         break;
+
                     case "2":
-                        Console.WriteLine("Viewing appointments...");
-                        // Implement logic for viewing appointments
+                        Console.WriteLine("Your doctor details:");
+                        // Implement logic to display patient's doctor details here
+                        Console.WriteLine("Please press any key to return to the menu.");
+                        Console.ReadKey();
                         break;
+
                     case "3":
-                        Console.WriteLine("Updating patient records...");
-                        // Implement logic for updating patient records
+                        Console.WriteLine("List of all appointments:");
+                        // Implement logic to list all appointments here
+                        Console.WriteLine("Please press any key to return to the menu.");
+                        Console.ReadKey();
                         break;
+
                     case "4":
-                        running = false; // Exit the doctor menu
+                        Console.WriteLine("Booking an appointment:");
+                        // Implement logic to book an appointment here
+                        Console.WriteLine("Appointment booked successfully!");
+                        Console.WriteLine("Please press any key to return to the menu.");
+                        Console.ReadKey();
                         break;
+
+                    case "5":
+                        running = false; // Exit to the login screen
+                        break;
+
+                    case "6":
+                        Environment.Exit(0); // Exit the entire system
+                        break;
+
                     default:
                         Console.WriteLine("Invalid choice. Please try again.");
                         break;
                 }
             }
         }
+
 
 
 

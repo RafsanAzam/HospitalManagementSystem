@@ -85,7 +85,7 @@ namespace HospitalManagementSystem.Managers
             return maxId + 1;
         }
 
-        private void LoadPatientsFromFile()
+        public void LoadPatientsFromFile()
         {
             try
             {
