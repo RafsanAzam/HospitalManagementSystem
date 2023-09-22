@@ -11,9 +11,12 @@ namespace HospitalManagementSystem
         private static readonly string credentialsFilePath = "F:\\2023\\Spring - 2023\\.NET Application Development\\Assignment-1\\HospitalManagementSystem\\Data\\credentials.txt"; //path to the file storing user credentials
         static void Main(string[] args)
         {
+            
+            Console.WriteLine("Welcome to the Hospital Management System");
+
             AdministratorManagement administratorManagement = new AdministratorManagement();
             DoctorManagement doctorManagement = new DoctorManagement();
-            Console.WriteLine("Welcome to the Hospital Management System");
+            PatientManagement patientManagement = new PatientManagement();
 
             bool isAuthenticated = false;
             string userRole = null;
@@ -53,7 +56,7 @@ namespace HospitalManagementSystem
                     break;
 
                 case "Admin":
-                    administratorManagement.RunAdministratorMenu();
+                    RunAdministratorMenu(doctorManagement, administratorManagement, patientManagement);
                     break;
 
             }
@@ -143,6 +146,213 @@ namespace HospitalManagementSystem
 
         //AdministratorManagement administratorManagement = new AdministratorManagement();
        
+
+        public static void RunAdministratorMenu(DoctorManagement doctorManagement, AdministratorManagement administratorManagement, PatientManagement patientManagement)
+        {
+            bool running = true;
+
+            while (running)
+            {
+                Console.Clear();
+                Console.WriteLine("Welcome to DOTNET Hospital Management System userName");
+                Console.WriteLine();
+                Console.WriteLine("1. List all doctors");
+                Console.WriteLine("2. Check doctor details");
+                Console.WriteLine("3. List all patients");
+                Console.WriteLine("4. Check patient details");
+                Console.WriteLine("5. Add doctor");
+                Console.WriteLine("6. Add patient");
+                Console.WriteLine("7. Logout");
+                Console.WriteLine("8. Exit");
+
+
+                string choice = Console.ReadLine();
+
+                switch (choice)
+                {
+                    case "1":
+                        Console.WriteLine("All doctors registered to the DOTNET Hospital Management System: ");
+                        doctorManagement.ListDoctors();
+                        break;
+                    case "2":
+                        Console.WriteLine("Enter the ID of the doctor whose details you want to check: ");
+                        if (int.TryParse(Console.ReadLine(), out int Id))
+                        {
+                            Console.WriteLine($"{Id} is the value I have received");
+                            doctorManagement.ListDoctorDetails(Id);
+                            Console.WriteLine("Please Enter to return to the menu");
+                            Console.ReadLine(); // Wait for user input before returning to the menu
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid input. Please enter a valid doctor ID.");
+                        }
+                        break;
+                    case "3":
+                        Console.WriteLine("list of all patients...");
+                        // Implement logic for listing all patients
+                        patientManagement.ListPatients();
+                        Console.WriteLine("Please Enter to return to the menu");
+                        Console.ReadLine();
+
+                        break;
+                    case "4":
+                        Console.WriteLine("Enter the ID of the patient whose details you want to check: ");
+                        if (int.TryParse(Console.ReadLine(), out int id))
+                        {
+                            Console.WriteLine($"{id} is the value I have received");
+                            patientManagement.ListPatientDetails(id);
+                            Console.WriteLine("Please Enter to return to the menu");
+                            Console.ReadLine(); // Wait for user input before returning to the menu
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid input. Please enter a valid patient ID.");
+                        }
+
+                        break;
+                    case "5":
+                        Console.WriteLine("Enter the details of the new doctor:");
+                        Console.Write("First Name: ");
+                        string firstName = Console.ReadLine();
+                        Console.Write("Last Name: ");
+                        string lastName = Console.ReadLine();
+                        Console.Write("Email: ");
+                        string email = Console.ReadLine();
+                        Console.Write("Phone: ");
+                        string phone = Console.ReadLine();
+                        Console.Write("Street Number: ");
+                        if (int.TryParse(Console.ReadLine(), out int streetNumber))
+                        {
+                            Console.Write("Street Name: ");
+                            string streetName = Console.ReadLine();
+                            Console.Write("City: ");
+                            string city = Console.ReadLine();
+                            Console.Write("State: ");
+                            string state = Console.ReadLine();
+
+                            // Create a new Doctor object with the entered details
+                            int uniqueID = doctorManagement.doctors.Count()+1;
+                            Doctor newDoctor = new Doctor(uniqueID, firstName, lastName, email, phone, streetNumber, streetName, city, state);
+
+                            // Add the new doctor to the DoctorManagement class
+                            doctorManagement.AddDoctor(newDoctor);
+
+                            Console.WriteLine("Doctor added successfully!");
+                            Console.ReadKey();
+                            
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid input. Please enter a valid street number.");
+                        }
+                        break;
+                    case "6":
+                        Console.WriteLine("Enter the details of the new patient:");
+                        Console.Write("Full Name: ");
+                        string fullName = Console.ReadLine();
+                        Console.Write("Address: ");
+                        string address = Console.ReadLine();
+                        Console.Write("Email: ");
+                        string Email = Console.ReadLine();
+                        Console.Write("Phone: ");
+                        string Phone = Console.ReadLine();
+                        // Create a new Patient object with the entered details
+                        int uniqueiD = patientManagement.patients.Count() + 1;
+                        Patient newPatient = new Patient(uniqueiD, fullName, address, Email, Phone);
+
+                        // Add the new patient to the PatientManagement class
+                        patientManagement.AddPatient(newPatient);
+
+                        Console.WriteLine("Patient added successfully!");
+                        Console.ReadKey();
+                        break;
+
+                    default:
+                        Console.WriteLine("Invalid choice. Please try again.");
+                        break;
+                }
+            }
+        }
+
+        public static void RunDoctorMenu()
+        {
+            bool running = true;
+
+            while (running)
+            {
+                Console.WriteLine("\nDoctor Menu");
+                Console.WriteLine("1. View Patient List");
+                Console.WriteLine("2. View Appointments");
+                Console.WriteLine("3. Update Patient Records");
+                Console.WriteLine("4. Logout");
+
+                Console.Write("Enter your choice (1-4): ");
+                string choice = Console.ReadLine();
+
+                switch (choice)
+                {
+                    case "1":
+                        Console.WriteLine("Viewing patient list...");
+                        // Implement logic for viewing the patient list
+                        break;
+                    case "2":
+                        Console.WriteLine("Viewing appointments...");
+                        // Implement logic for viewing appointments
+                        break;
+                    case "3":
+                        Console.WriteLine("Updating patient records...");
+                        // Implement logic for updating patient records
+                        break;
+                    case "4":
+                        running = false; // Exit the doctor menu
+                        break;
+                    default:
+                        Console.WriteLine("Invalid choice. Please try again.");
+                        break;
+                }
+            }
+        }
+
+        public static void RunPatientMenu()
+        {
+            bool running = true;
+
+            while (running)
+            {
+                Console.WriteLine("\nDoctor Menu");
+                Console.WriteLine("1. View Patient List");
+                Console.WriteLine("2. View Appointments");
+                Console.WriteLine("3. Update Patient Records");
+                Console.WriteLine("4. Logout");
+
+
+                Console.Write("Enter your choice (1-4): ");
+                string choice = Console.ReadLine();
+
+                switch (choice)
+                {
+                    case "1":
+                        Console.WriteLine("Viewing patient list...");
+                        // Implement logic for viewing the patient list
+                        break;
+                    case "2":
+                        Console.WriteLine("Viewing appointments...");
+                        // Implement logic for viewing appointments
+                        break;
+                    case "3":
+                        Console.WriteLine("Updating patient records...");
+                        // Implement logic for updating patient records
+                        break;
+                    case "4":
+                        running = false; // Exit the doctor menu
+                        break;
+                    default:
+                        Console.WriteLine("Invalid choice. Please try again.");
+                        break;
+                }
+            }
+        }
 
 
 

@@ -11,19 +11,20 @@ namespace HospitalManagementSystem.Managers
 {
     public class PatientManagement
     {
-        private List<Patient> patients;
-        private string patientsFilePath = "F:\\2023\\Spring - 2023\\.NET Application Development\\Assignment-1\\HospitalManagementSystem\\Data\\patientList.txt"; //text file for storing doctor data
+        public List<Patient> patients;
+        public string patientsFilePath = "F:\\2023\\Spring - 2023\\.NET Application Development\\Assignment-1\\HospitalManagementSystem\\Data\\patientList.txt"; //text file for storing doctor data
 
         public PatientManagement()
         {
             patients = new List<Patient>();
+            LoadPatientsFromFile(); // Load patients from file when the class is initialized.
         }
 
         // *** Function for adding new patient ***
 
         public void AddPatient(Patient patient)
         {
-            patient.Id = GenerateUniquePatientId();
+            //patient.Id = GenerateUniquePatientId();
 
 
             patients.Add(patient);  //add patient to the list
@@ -36,9 +37,19 @@ namespace HospitalManagementSystem.Managers
         // *** Fuction to list all patients ***
         public void ListPatients()
         {
-            foreach (Patient patient in patients)
+            Console.Clear();
+            Console.WriteLine("List of All Patients:");
+
+            if(patients.Count == 0)
             {
-                Console.WriteLine(patient.ToString());
+                Console.WriteLine("No patients found");
+            }
+            else
+            {
+                foreach (Patient patient in patients)
+                {
+                    Console.WriteLine(patient.ToString());
+                }
             }
         }
 
@@ -85,24 +96,24 @@ namespace HospitalManagementSystem.Managers
                     //Split the line into fields (assuming fields are separated by a delimiter like a comma)
                     string[] fields = line.Split(',');
 
-                    // Check if there are enough fields to create a Doctor object
-                    if (fields.Length >= 9)
+                    // Check if there are enough fields to create a Patient object
+                    if (fields.Length >= 5)
                     {
                         try
                         {
-                            //Parse the fields & create a new Doctor object
+                            //Parse the fields & create a new Patient object
                             int id = int.Parse(fields[0].Trim());
                             string Name = fields[1].Trim();
                             string address = fields[2].Trim();
                             string email = fields[3].Trim();
-                            int phone = int.Parse(fields[4].Trim());
+                            string phone = fields[4].Trim();
                             
                             
 
                             //Create a new patient object
                             Patient patient = new Patient(id, Name, address, email, phone);
 
-                            //add the doctor to the list
+                            //add the patient to the list
 
                             patients.Add(patient);
                         }
@@ -132,49 +143,20 @@ namespace HospitalManagementSystem.Managers
             }
 
             //Write the list of strings to the file
-            File.WriteAllLines(patientsFilePath, patientStrings);
+            //File.WriteAllLines(patientsFilePath, patientStrings);
 
-        }
-
-
-        public static void RunPatientMenu()
-        {
-            bool running = true;
-
-            while (running)
+            using (StreamWriter writer = new StreamWriter(patientsFilePath, true))
             {
-                Console.WriteLine("\nDoctor Menu");
-                Console.WriteLine("1. View Patient List");
-                Console.WriteLine("2. View Appointments");
-                Console.WriteLine("3. Update Patient Records");
-                Console.WriteLine("4. Logout");
-
-                Console.Write("Enter your choice (1-4): ");
-                string choice = Console.ReadLine();
-
-                switch (choice)
+                foreach (var patientString in patientStrings)
                 {
-                    case "1":
-                        Console.WriteLine("Viewing patient list...");
-                        // Implement logic for viewing the patient list
-                        break;
-                    case "2":
-                        Console.WriteLine("Viewing appointments...");
-                        // Implement logic for viewing appointments
-                        break;
-                    case "3":
-                        Console.WriteLine("Updating patient records...");
-                        // Implement logic for updating patient records
-                        break;
-                    case "4":
-                        running = false; // Exit the doctor menu
-                        break;
-                    default:
-                        Console.WriteLine("Invalid choice. Please try again.");
-                        break;
+                    writer.WriteLine(patientString);
                 }
             }
+
         }
+
+
+       
 
 
 

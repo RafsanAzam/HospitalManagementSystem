@@ -24,7 +24,7 @@ namespace HospitalManagementSystem.Managers
 
         public void AddDoctor(Doctor doctor)
         {
-            //doctor.id = GenerateUniqueDoctorId();
+            //doctor.Id = GenerateUniqueDoctorId();
 
 
             doctors.Add(doctor);  //add doctor to the list
@@ -153,52 +153,18 @@ namespace HospitalManagementSystem.Managers
             }
 
             //Write the list of strings to the file
-            File.WriteAllLines(doctorsFilePath, doctorStrings);
+           // File.WriteAllLines(doctorsFilePath, doctorStrings);
 
-        }
-
-
-        public static void RunDoctorMenu()
-        {
-            bool running = true;
-
-            while (running)
+            using (StreamWriter writer = new StreamWriter(doctorsFilePath, true))
             {
-                Console.WriteLine("\nDoctor Menu");
-                Console.WriteLine("1. View Patient List");
-                Console.WriteLine("2. View Appointments");
-                Console.WriteLine("3. Update Patient Records");
-                Console.WriteLine("4. Logout");
-
-                Console.Write("Enter your choice (1-4): ");
-                string choice = Console.ReadLine();
-
-                switch (choice)
+                foreach (var doctorString in doctorStrings)
                 {
-                    case "1":
-                        Console.WriteLine("Viewing patient list...");
-                        // Implement logic for viewing the patient list
-                        break;
-                    case "2":
-                        Console.WriteLine("Viewing appointments...");
-                        // Implement logic for viewing appointments
-                        break;
-                    case "3":
-                        Console.WriteLine("Updating patient records...");
-                        // Implement logic for updating patient records
-                        break;
-                    case "4":
-                        running = false; // Exit the doctor menu
-                        break;
-                    default:
-                        Console.WriteLine("Invalid choice. Please try again.");
-                        break;
+                    writer.WriteLine(doctorString);
                 }
             }
+
+
         }
-
-
-
 
     }
 }

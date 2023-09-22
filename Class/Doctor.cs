@@ -43,5 +43,6 @@ namespace HospitalManagementSystem.Classes
                 $"Phone: {Phone}\n" +
                 $"Address: {StreetNumber} {StreetName}, {City}, {State}";
         }
+
     }
 }

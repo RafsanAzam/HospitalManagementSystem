@@ -142,71 +142,17 @@ namespace HospitalManagementSystem.Managers
         }
 
 
-        public  void RunAdministratorMenu()
-        {
-            bool running = true;
-
-            while (running)
-            {
-                Console.Clear();
-                Console.WriteLine("Welcome to DOTNET Hospital Management System userName");
-                Console.WriteLine();
-                Console.WriteLine("1. List all doctors");
-                Console.WriteLine("2. Check doctor details");
-                Console.WriteLine("3. List all patients");
-                Console.WriteLine("4. Check patient details");
-                Console.WriteLine("5. Add doctor");
-                Console.WriteLine("6. Add patient");
-                Console.WriteLine("7. Logout");
-                Console.WriteLine("8. Exit");
-
-
-                string choice = Console.ReadLine();
-
-                switch (choice)
-                {
-                    case "1":
-                        Console.WriteLine("All doctors registered to the DOTNET Hospital Management System: ");
-                        ListAllDoctors();
-                        break;
-                    case "2":
-                        Console.WriteLine("Enter the ID of the doctor whose details you want to check: ");
-                        if (int.TryParse(Console.ReadLine(), out int Id))
-                        {
-                            Console.WriteLine($"{Id} is the value I have received");
-                            //DoctorManagement doctorManagement = new DoctorManagement();
-                            doctorManagement.ListDoctorDetails(Id);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Invalid input. Please enter a valid doctor ID.");
-                        }
-                        break;
-                    case "3":
-                        Console.WriteLine("list of all patients...");
-                        // Implement logic for listing all patients
-                        ListAllPatients();
-                        
-                        break;
-                    case "4":
-                        running = false; // Exit the doctor menu
-                        break;
-                    default:
-                        Console.WriteLine("Invalid choice. Please try again.");
-                        break;
-                }
-            }
-        }
+        
 
         public  void ListAllDoctors()
         {
-            DoctorManagement doctorManagement = new DoctorManagement();
+            //DoctorManagement doctorManagement = new DoctorManagement();
             doctorManagement.ListDoctors();
         }
 
         public void ListAllPatients()
         {
-            PatientManagement patientManagement = new PatientManagement();
+            //PatientManagement patientManagement = new PatientManagement();
             patientManagement.ListPatients();
         }
 
