@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Numerics;
 using System.Runtime.CompilerServices;
+using System.Security.AccessControl;
 using HospitalManagementSystem.Classes;
 using HospitalManagementSystem.Managers;
 
@@ -102,7 +104,10 @@ namespace HospitalManagementSystem
                     RunAdministratorMenu(doctorManagement, administratorManagement, patientManagement, ref isAuthenticated);
                     break;
                 case "Patient":
-                    RunPatientMenu(patientManagement, doctorManagement, userIdforCheck);
+                    patientManagement.LoadPatientsFromFile();
+                    int id = int.Parse(userIdforCheck);
+                    var patient = patientManagement.patients.Find(p => p.Id == id);
+                    RunPatientMenu(patient, patientManagement, doctorManagement,  userIdforCheck);
                     break;
 
 
@@ -368,11 +373,10 @@ namespace HospitalManagementSystem
             }
         }
 
-        public static void RunPatientMenu(PatientManagement patientManagement, DoctorManagement doctorManagement, String userId)
+        public static void RunPatientMenu(Patient patient, PatientManagement patientManagement, DoctorManagement doctorManagement, String userId)
         {
-            patientManagement.LoadPatientsFromFile();
+
             bool running = true;
-            int id = int.Parse(userId);
             while (running)
             {
                 Console.Clear();
@@ -392,7 +396,7 @@ namespace HospitalManagementSystem
                     case "1":
                         Console.WriteLine("Your patient details:");
                         // Implement logic to display patient details here
-                        var patient = patientManagement.patients.Find(p => p.Id == id);
+                        
                         if(patient != null)
                         {
                             //Print the patient details
@@ -425,6 +429,51 @@ namespace HospitalManagementSystem
                     case "4":
                         Console.WriteLine("Booking an appointment:");
                         // Implement logic to book an appointment here
+                        if(patient.appointments.Count == 0)
+                        {
+                            Console.WriteLine("You are not registered with any doctor! Please choose a doctor to register with:");
+                            doctorManagement.ListDoctors();
+                            Console.WriteLine("Please choose a doctor ID:");
+                            int DoctorId = int.Parse(Console.ReadLine());
+                            Doctor myDoctor = doctorManagement.GetDoctorById(DoctorId);
+                            RegistrationManagement myDoctors = new RegistrationManagement(myDoctor, patient);
+                            myDoctors.RegisterWithDoctor(myDoctor, patient, patient.appointments); //registering with doctor
+                            patient.AddRegistration(myDoctors);
+                            Console.WriteLine("Successfully Registered with the doctor!");
+                            Console.WriteLine("Please Write the description of visit!");
+                            Console.Write("Description:");
+                            string description = Console.ReadLine();
+                            AppointmentManagement newAppointment = new AppointmentManagement(myDoctor, patient, description);
+                            patient.appointments.Add(newAppointment);
+                            Console.WriteLine($"You are booking a new appointment with {myDoctor.LastName}");
+                            Console.WriteLine($"Description of appointment {description}");
+                            Console.WriteLine("The appointment has been booked successfully");
+                        }
+
+                        else
+                        {
+                            Console.WriteLine("Available Doctors: ");
+                            doctorManagement.ListDoctors();
+                            Console.WriteLine("Please choose a doctor ID:");
+                            int DoctorId = int.Parse(Console.ReadLine());
+                            Doctor myDoctor = doctorManagement.GetDoctorById(DoctorId);
+                            Console.WriteLine("Please Write the description of visit!");
+                            Console.Write("Description:");
+                            string description = Console.ReadLine();
+                            AppointmentManagement newAppointment = new AppointmentManagement(myDoctor, patient, description);
+                            patient.appointments.Add(newAppointment);
+                            Console.WriteLine($"You are booking a new appointment with {myDoctor.LastName}");
+                            Console.WriteLine($"Description of appointment {description}");
+                            Console.WriteLine("The appointment has been booked successfully");
+
+                        }
+{
+                            Console.WriteLine("You are not registered with any doctor. Please choose a doctor to register with:");
+                            // Display a list of available doctors and let the patient choose one
+                            // After registration, add appointments with that doctor as needed
+                            // doctorManagement.RegisterPatientWithDoctor(patient, chosenDoctor); // Implement this method if necessary
+                        }
+
                         Console.WriteLine("Appointment booked successfully!");
                         Console.WriteLine("Please press any key to return to the menu.");
                         Console.ReadKey();

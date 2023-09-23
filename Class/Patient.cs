@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HospitalManagementSystem.Managers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -60,5 +61,21 @@ namespace HospitalManagementSystem.Classes
 
 
         }
+
+        
+
+        public List<AppointmentManagement> appointments = new List<AppointmentManagement>();  // List to store patient's appointments
+        public List<RegistrationManagement> registration = new List<RegistrationManagement>();  // List to store patient's registration
+
+     
+        public void AddAppointment(AppointmentManagement appointment)
+        {
+            appointments.Add(appointment); // Method to add an appointment to the patient's list
+        }
+        public void AddRegistration(RegistrationManagement myDoctor)
+        {
+            registration.Add(myDoctor);
+        }
+
     }
 }

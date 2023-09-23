@@ -170,11 +170,12 @@ namespace HospitalManagementSystem.Managers
 
         }
 
+        public void BookAppointment(Patient patient, Doctor doctor, string description)
+        {
 
-       
-
-
-
+            AppointmentManagement appointment = new AppointmentManagement(doctor, patient, description);
+            patient.AddAppointment(appointment);
+        }
 
     }
 }

@@ -166,5 +166,10 @@ namespace HospitalManagementSystem.Managers
 
         }
 
+        public Doctor GetDoctorById(int doctorId)
+        {
+            return doctors.FirstOrDefault(d => d.Id == doctorId);
+        }
+
     }
 }
